@@ -1,0 +1,198 @@
+<!doctype html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>데이터 강국 실현을 위한 대국민 슬로건 공모대회</title>
+    <style>
+        @font-face { font-family: 'S-CoreDream-8Heavy'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff'); font-weight: normal; font-style: normal; }
+
+        html, body, div, ul, li, form, input, button {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: sans-serif;
+            color: white;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #CC3868 0%, #38BCED 100%);
+        }
+        h1, h2, h3 {
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .section {
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .lead.section {
+            margin-top: 40px;
+        }
+        .lead.section .title {
+            font-family: 'S-CoreDream-8Heavy', sans-serif;
+            font-weight: bold;
+            font-size: 2.8rem;
+        }
+        .lead.section .subtitle {
+            font-family: 'S-CoreDream-8Heavy', sans-serif;
+            font-size: 1.4rem;
+        }
+
+        .form.section {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .form.section .input-wrapper {
+            padding: 4px;
+        }
+        .form.section input {
+            padding: 6px 12px;
+            border: 0;
+            border-radius: 4px;
+            outline: none;
+        }
+        .form.section input[name="slogan"] {
+            width: 100%;
+            font-size: 1.6rem;
+        }
+        .form.section input[name="writer"] {
+            /*text-align: right;*/
+            width: 100%;
+            font-size: 1.2rem;
+        }
+        .form.section button {
+            font-size: 1.2rem;
+            border-radius: 4px;
+            padding: 6px 12px;
+            outline: none;
+            margin: 4px;
+        }
+
+        .list.section {
+            text-align: center;
+            font-weight: bold;
+        }
+        .list.section li {
+            list-style: none;
+            color: white;
+            padding: 8px;
+            font-size: 1.2rem;
+            word-break: keep-all;
+            margin-bottom: 24px;
+        }
+        .list.section p {
+            margin: 8px 0;
+            font-size: 1rem;
+            font-weight: normal;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="lead section">
+        <h3 class="subtitle">데이터 강국 실현을 위한</h3>
+        <h1 class="title">대국민 슬로건 공모대<br>회</h1>
+    </div>
+
+    <div class="form section">
+        <form id="form">
+            <div class="input-wrapper">
+                <input name="slogan" placeholder="슬로건" maxlength="100"/>
+            </div>
+            <div class="input-wrapper">
+                <input name="writer" placeholder="작성자명" maxlength="20"/>
+            </div>
+            <button>제출</button>
+            {% csrf_token %}
+        </form>
+    </div>
+
+    <div class="list section">
+        <ul id="list"></ul>
+    </div>
+
+    <script>
+        function createRow(content, writer) {
+            var li = document.createElement('li');
+            var wrapper = document.createElement('div');
+            var sloganPlace = document.createElement('h3');
+            var writerPlace = document.createElement('p');
+
+            sloganPlace.textContent = '“' + content + '”';
+            if (writer) {
+                writerPlace.textContent = ' - ' + writer;
+            }
+
+            wrapper.appendChild(sloganPlace);
+            wrapper.appendChild(writerPlace);
+            li.appendChild(wrapper);
+
+            return li
+        }
+
+        function draw(data) {
+            var ul = document.querySelector('#list');
+
+            data.items.forEach(function (item) {
+                var li = createRow(item.content, item.writer);
+                ul.appendChild(li);
+            })
+        }
+
+        function load() {
+            fetch('/api/slogans').then(function (response) {
+                return response.json()
+            }).then(function (data) {
+                draw(data)
+            })
+        }
+
+        function bind() {
+            var form = document.querySelector('#form');
+            var slogan = form.querySelector('#form input[name=slogan]');
+            var writer = form.querySelector('#form input[name=writer]');
+            var button = form.querySelector('#form button');
+            var ul = document.querySelector('#list');
+
+            form.onsubmit = function () {
+                button.disabled = true;
+
+                var data = new FormData(form);
+
+                fetch('/api/slogans', {
+                    method: 'POST',
+                    body: data
+                }).then(function (response) {
+                    var li = createRow(slogan.value, writer.value);
+
+                    ul.insertBefore(li, ul.firstChild);
+
+                    slogan.value = '';
+                    writer.value = '';
+
+                    alert('접수되었습니다');
+                }).catch(function (error) {
+                    alert('오류가 발생했습니다');
+                    console.log(error);
+                }).finally(function () {
+                    button.disabled = false;
+                });
+
+                return false
+            };
+        }
+
+        window.addEventListener('load', function () {
+            var ul = document.querySelector('#list');
+            var item = createRow('슬로건 만들어서 데이터 강국 이룩하자', '주최자');
+            ul.appendChild(item);
+
+            bind();
+            load();
+        })
+
+        /* plain old js 오랜만에 하려니 귀찮다.. */
+    </script>
+</body>
