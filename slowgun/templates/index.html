@@ -4,8 +4,10 @@
     <title>데이터 강국 실현을 위한 대국민 슬로건 공모대회</title>
 
     <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://slow-gun.appspot.com"/>
     <meta property="og:title" content="데이터 강국 실현을 위한 대국민 슬로건 공모대회"/>
     <meta property="og:description" content="슬로건 만들어서 데이터 강국 이룩하자"/>
+    <meta property="og:image" content="https://slow-gun.appspot.com/static/og.png"/>
 
     <style>
         @font-face { font-family: 'S-CoreDream-8Heavy'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-8Heavy.woff') format('woff'); font-weight: normal; font-style: normal; }
@@ -22,14 +24,26 @@
             height: 100%;
             background: linear-gradient(to right, #CC3868 0%, #38BCED 100%);
         }
-        h1, h2, h3 {
+        h1, h2, h3, h4 {
             color: white;
             margin: 0;
             padding: 0;
         }
+        a {
+            color: inherit;
+        }
+        ul {
+            margin: 20px;
+        }
+        ul li {
+            text-align: left;
+            color: white;
+            line-height: 1.6rem;
+        }
         .section {
-            max-width: 420px;
+            max-width: 440px;
             margin: 0 auto;
+            padding: 10px;
         }
 
         .lead.section {
@@ -102,16 +116,18 @@
     </div>
 
     <div class="form section">
-        <form id="form">
-            <div class="input-wrapper">
-                <input name="slogan" placeholder="슬로건" maxlength="100"/>
-            </div>
-            <div class="input-wrapper">
-                <input name="writer" placeholder="작성자명" maxlength="20"/>
-            </div>
-            <button>제출</button>
-            {% csrf_token %}
-        </form>
+        <div>
+            <h2>NIA에서 <a href="http://spectory.net/nia/dataslogan/noticeDetail?postId=2428&page=1">선정한</a> 작품</h2>
+            <ul>
+                <li>함께 더하는 데이터, 함께 키우는 대한민국</li>
+                <li>데이터로 만드는 가능성의 놀이터, 우리가 주인공입니다</li>
+                <li>더 많은 데이터로! 더 좋은 대한민국!</li>
+                <li>데이터 혁신과<br>
+                    通하다, 데이터 미래를<br>
+                    秀놓다</li>
+            </ul>
+            <h4><strike>저희게 더 좋은 것 같은데요</strike></h4>
+        </div>
     </div>
 
     <div class="list section">

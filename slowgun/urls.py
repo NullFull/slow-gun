@@ -20,6 +20,6 @@ from slowgun import views
 
 urlpatterns = [
     path('', views.index),
-    path('api/slogans', views.slogans),
+    # path('api/slogans', views.slogans),
     path('admin/', admin.site.urls),
 ]
