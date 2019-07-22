@@ -170,47 +170,11 @@
             })
         }
 
-        function bind() {
-            var form = document.querySelector('#form');
-            var slogan = form.querySelector('#form input[name=slogan]');
-            var writer = form.querySelector('#form input[name=writer]');
-            var button = form.querySelector('#form button');
-            var ul = document.querySelector('#list');
-
-            form.onsubmit = function () {
-                button.disabled = true;
-
-                var data = new FormData(form);
-
-                fetch('/api/slogans', {
-                    method: 'POST',
-                    body: data
-                }).then(function (response) {
-                    var li = createRow(slogan.value, writer.value);
-
-                    ul.insertBefore(li, ul.firstChild);
-
-                    slogan.value = '';
-                    writer.value = '';
-
-                    alert('접수되었습니다');
-                }).catch(function (error) {
-                    alert('오류가 발생했습니다');
-                    console.log(error);
-                }).finally(function () {
-                    button.disabled = false;
-                });
-
-                return false
-            };
-        }
-
         window.addEventListener('load', function () {
             var ul = document.querySelector('#list');
             var item = createRow('슬로건 만들어서 데이터 강국 이룩하자', '주최자');
             ul.appendChild(item);
 
-            bind();
             load();
         })
 
