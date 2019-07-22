@@ -24,26 +24,3 @@ def slogans(request):
         return JsonResponse({
             'items': [slogan.to_dict() for slogan in items]
         })
-    elif request.method == 'POST':
-        content = request.POST.get('slogan', '')
-        writer = request.POST.get('writer', '')
-
-        print(content)
-        print(writer)
-
-        if not content:
-            raise ValueError
-
-        if len(content) > 100 or len(writer) > 20:
-            raise ValueError  # TODO : 친절한 길이 오류 안내
-
-        data = {
-            'content': content,
-            'writer': writer,
-            'created': now(),
-        }
-
-        item = db.collection('slogans').document()
-        item.set(data)
-
-        return JsonResponse(data, status=201)
