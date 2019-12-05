@@ -7,9 +7,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: setup
+          name: collect static
           command: |
             apt-get -y install python3-venv
+            python3 -m venv venv
+            . ./venv/bin/activate
+            pip install -r requirements.txt
+            python manage.py collectstatic --noinput
       - run:
           name: deploy
           command: |
