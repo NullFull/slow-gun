@@ -1,4 +1,4 @@
-Django==2.2.27
+Django==3.2.24
 firebase-admin==4.5.3
 google-cloud-firestore==2.0.2
 pytz==2021.1
